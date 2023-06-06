@@ -1,6 +1,7 @@
 # Converter_JSON_HTML
+> Запуск проекта
+> 1. composer install
+> 2. docker-compose build
+> 3. docker-compose up  -d
 
-# composer update
-# docker-compose build
-# docker-compose up -d
-# server : http://127.0.0.1:8000/
+> url server : http://127.0.0.1:8000/

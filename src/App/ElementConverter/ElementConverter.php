@@ -2,55 +2,66 @@
 
 namespace App\ElementConverter;
 
-use App\Enum\HtmlElementsEnum;
-use App\HtmlElements\BlockElement;
-use App\HtmlElements\ButtonElement;
-use App\HtmlElements\ContainerElement;
-use App\HtmlElements\ImageElement;
-use App\HtmlElements\TextElement;
+use App\DTO\PageElement;
+use App\Enum\HtmlElementEnum;
+use App\HtmlElement\BlockElement;
+use App\HtmlElement\ButtonElement;
+use App\HtmlElement\ContainerElement;
+use App\HtmlElement\ImageElement;
+use App\HtmlElement\TextElement;
+use ValueError;
 
-class ElementConverter
+final class ElementConverter
 {
     private string $json;
 
-    public function __construct($json)
+    public function __construct(string $fileJsonPath)
     {
-        $this->json = $json;
+        $this->json = file_get_contents($fileJsonPath);
     }
 
     public function convert(): string
     {
         $pageElements = json_decode($this->json, true);
-        
-        return $this->convertElement($pageElements);
+
+        try {
+            $pageElement = new PageElement(
+                type: $pageElements['type'] ?? null,
+                payload: $pageElements['payload'] ?? [],
+                parameters: $pageElements['parameters'] ?? [],
+                children: $pageElements['children'] ?? []
+            );
+        } catch (ValueError) {
+            return 'Некорректно заполненный JSON или ошибка пути файла';
+        }
+
+        return $this->convertElements($pageElement);
     }
 
-    public function convertElement(?array $pageElements): string
+    public function convertElements(PageElement $element): string
     {
         $html = '';
 
-        if (isset($pageElements['type'])) {
-            switch ($pageElements['type']) {
-                case HtmlElementsEnum::CONTAINER->value:
-                    $pageElements = new ContainerElement($pageElements);
-                    break;
-                case HtmlElementsEnum::BLOCK->value:
-                    $pageElements = new BlockElement($pageElements);
-                    break;
-                case HtmlElementsEnum::TEXT->value:
-                    $pageElements = new TextElement($pageElements);
-                    break;
-                case HtmlElementsEnum::IMAGE->value:
-                    $pageElements = new ImageElement($pageElements);
-                    break;
-                case HtmlElementsEnum::BUTTON->value:
-                    $pageElements = new ButtonElement($pageElements);
-                    break;
-            }
-            $html .= $pageElements?->render($this);
+        switch ($element->getType()) {
+            case HtmlElementEnum::CONTAINER:
+                $element = new ContainerElement($element);
+                break;
+            case HtmlElementEnum::BLOCK:
+                $element = new BlockElement($element);
+                break;
+            case HtmlElementEnum::TEXT:
+                $element = new TextElement($element);
+                break;
+            case HtmlElementEnum::IMAGE:
+                $element = new ImageElement($element);
+                break;
+            case HtmlElementEnum::BUTTON:
+                $element = new ButtonElement($element);
+                break;
         }
+
+        $html .= $element->render($this);
 
         return $html;
     }
 }
-
