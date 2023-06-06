@@ -1,13 +1,13 @@
 <?php
 
-namespace App\ButtonElement;
+namespace App\HtmlElements;
 
 class ButtonElement
 {
     private array $payload;
     private array $parameters;
 
-    public function __construct($data)
+    public function __construct(array $data)
     {
         $this->payload = $data['payload'] ?? [];
         $this->parameters = $data['parameters'] ?? [];

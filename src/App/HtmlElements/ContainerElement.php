@@ -1,6 +1,8 @@
 <?php
 
-namespace App\ContainerElement;
+namespace App\HtmlElements;
+
+use App\ElementConverter\ElementConverter;
 
 class ContainerElement
 {
@@ -8,14 +10,14 @@ class ContainerElement
     private array $parameters;
     private array $children;
 
-    public function __construct($data)
+    public function __construct(array $data)
     {
         $this->payload = $data['payload'] ?? [];
         $this->parameters = $data['parameters'] ?? [];
         $this->children = $data['children'] ?? [];
     }
 
-    public function render($converter): string
+    public function render(ElementConverter $converter): string
     {
         $html = '<div';
 
