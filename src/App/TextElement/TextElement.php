@@ -24,7 +24,7 @@ class TextElement
                 $html .= 'font-size' . ':' . $this->parameters['fontSize'] . ';';
             }
             if (isset($this->parameters['textAlign'])) {
-                $html .= 'text-align' . ':' . $this->parameters['fontSize'] . ';';
+                $html .= 'text-align' . ':' . $this->parameters['textAlign'] . ';';
             }
 
             $html .= '"';

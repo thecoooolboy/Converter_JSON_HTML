@@ -20,11 +20,11 @@ class ElementConverter
     public function convert(): string
     {
         $elements = json_decode($this->json, true);
-
+        
         return $this->convertElement($elements);
     }
 
-    private function convertElement($element): string
+    public function convertElement($element): string
     {
         $html = '';
 
@@ -32,11 +32,11 @@ class ElementConverter
             switch ($element['type']) {
                 case 'container':
                     $container = new ContainerElement($element);
-                    $html .= $container->render();
+                    $html .= $container->render($this);
                     break;
                 case 'block':
                     $block = new BlockElement($element);
-                    $html .= $block->render();
+                    $html .= $block->render($this);
                     break;
                 case 'text':
                     $text = new TextElement($element);
@@ -50,12 +50,6 @@ class ElementConverter
                     $button = new ButtonElement($element);
                     $html .= $button->render();
                     break;
-            }
-        }
-
-        if (!empty($element['children'])) {
-            foreach ($element['children'] as $child) {
-                $html .= $this->convertElement($child);
             }
         }
 

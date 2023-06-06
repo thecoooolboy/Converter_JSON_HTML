@@ -2,8 +2,6 @@
 
 namespace App\BlockElement;
 
-use App\ElementConverter\ElementConverter;
-
 class BlockElement
 {
     private array $payload;
@@ -17,7 +15,7 @@ class BlockElement
         $this->children = $data['children'] ?? [];
     }
 
-    public function render(): string
+    public function render($converter): string
     {
         $html = '<div';
 
@@ -26,6 +24,7 @@ class BlockElement
             if (isset($this->parameters['textAlign'])) {
                 $html .= 'text-align' . ':' . $this->parameters['textAlign'] . ';';
             }
+
             $html .= '"';
         }
 
@@ -38,7 +37,7 @@ class BlockElement
         }
 
         foreach ($this->children as $child) {
-            $html .= (new ElementConverter(json_encode([$child])))->convert();
+            $html .= $converter->convertElement($child);
         }
 
         $html .= '</div>';

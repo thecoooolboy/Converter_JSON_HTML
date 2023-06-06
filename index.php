@@ -6,9 +6,7 @@ use App\ElementConverter\ElementConverter;
 
 $json = '{
     "type": "container",
-    "payload": {
-        "text": "Заголовок"
-    },
+    "payload": {},
     "children": [
         {
             "type": "text",

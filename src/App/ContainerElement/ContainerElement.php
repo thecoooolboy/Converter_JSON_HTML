@@ -2,8 +2,6 @@
 
 namespace App\ContainerElement;
 
-use App\ElementConverter\ElementConverter;
-
 class ContainerElement
 {
     private array $payload;
@@ -17,7 +15,7 @@ class ContainerElement
         $this->children = $data['children'] ?? [];
     }
 
-    public function render(): string
+    public function render($converter): string
     {
         $html = '<div';
 
@@ -38,7 +36,7 @@ class ContainerElement
         }
 
         foreach ($this->children as $child) {
-            $html .= (new ElementConverter(json_encode([$child])))->convert();
+            $html .= $converter->convertElement($child);
         }
 
         $html .= '</div>';
