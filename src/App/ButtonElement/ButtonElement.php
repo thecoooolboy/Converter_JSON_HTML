@@ -15,7 +15,7 @@ class ButtonElement
 
     public function render(): string
     {
-        $html = '<a href="' . $this->payload['link']['payload'] . '"';
+        $html = '<button';
 
         if (!empty($this->parameters)) {
             $html .= ' style="';
@@ -33,9 +33,7 @@ class ButtonElement
 
         $html .= '>';
 
-        $html .= $this->payload['text'];
-
-        $html .= '</a>';
+        $html .= '<a href="' . $this->payload['link']['payload'] . '">' . $this->payload['text'] . '</a></button>';
 
         return $html;
     }
