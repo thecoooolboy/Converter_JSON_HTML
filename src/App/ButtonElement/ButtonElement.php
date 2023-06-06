@@ -4,15 +4,29 @@ namespace App\ButtonElement;
 
 class ButtonElement
 {
+    /**
+     * Контент
+     * @var array
+     */
     private array $payload;
+
+    /**
+     * Свойства
+     * @var array|mixed
+     */
     private array $parameters;
 
-    public function __construct($data)
+    public function __construct(array $data)
     {
         $this->payload = $data['payload'] ?? [];
         $this->parameters = $data['parameters'] ?? [];
     }
 
+    /**
+     * Рендер HTML
+     *
+     * @return string
+     */
     public function render(): string
     {
         $html = '<button';

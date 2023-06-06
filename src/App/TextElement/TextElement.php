@@ -4,7 +4,16 @@ namespace App\TextElement;
 
 class TextElement
 {
+    /**
+     * Контент
+     * @var array
+     */
     private array $payload;
+
+    /**
+     * Свойства
+     * @var array
+     */
     private array $parameters;
 
     public function __construct($data)
@@ -13,6 +22,11 @@ class TextElement
         $this->parameters = $data['parameters'] ?? [];
     }
 
+    /**
+     * Генерация HTML
+     *
+     * @return string
+     */
     public function render(): string
     {
         $html = '<p';

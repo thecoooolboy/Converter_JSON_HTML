@@ -10,13 +10,22 @@ use App\TextElement\TextElement;
 
 class ElementConverter
 {
+    /**
+     * JSON
+     * @var string
+     */
     private string $json;
 
-    public function __construct($json)
+    public function __construct(string $json)
     {
         $this->json = $json;
     }
 
+    /**
+     * Общий метод конвертации элементов
+     *
+     * @return string
+     */
     public function convert(): string
     {
         $elements = json_decode($this->json, true);
@@ -24,6 +33,13 @@ class ElementConverter
         return $this->convertElement($elements);
     }
 
+    /**
+     * Конвертация определенного элемента в HTML
+     *
+     * @param $element
+     *
+     * @return string
+     */
     public function convertElement($element): string
     {
         $html = '';

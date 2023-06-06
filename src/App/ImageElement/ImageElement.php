@@ -4,15 +4,29 @@ namespace App\ImageElement;
 
 class ImageElement
 {
+    /**
+     * Контент
+     * @var array
+     */
     private array $payload;
+
+    /**
+     * Свойства
+     * @var array
+     */
     private array $parameters;
 
-    public function __construct($data)
+    public function __construct(array $data)
     {
         $this->payload = $data['payload'] ?? [];
         $this->parameters = $data['parameters'] ?? [];
     }
 
+    /**
+     * Генерация HTML
+     *
+     * @return string
+     */
     public function render(): string
     {
         $html = '<img src="' . $this->payload['image']['url'] . '" ';
