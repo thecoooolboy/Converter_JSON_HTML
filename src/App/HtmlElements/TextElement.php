@@ -1,13 +1,13 @@
 <?php
 
-namespace App\TextElement;
+namespace App\HtmlElements;
 
 class TextElement
 {
     private array $payload;
     private array $parameters;
 
-    public function __construct($data)
+    public function __construct(array $data)
     {
         $this->payload = $data['payload'] ?? [];
         $this->parameters = $data['parameters'] ?? [];

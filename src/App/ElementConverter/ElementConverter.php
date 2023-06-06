@@ -2,11 +2,12 @@
 
 namespace App\ElementConverter;
 
-use App\BlockElement\BlockElement;
-use App\ButtonElement\ButtonElement;
-use App\ContainerElement\ContainerElement;
-use App\ImageElement\ImageElement;
-use App\TextElement\TextElement;
+use App\Enum\HtmlElementsEnum;
+use App\HtmlElements\BlockElement;
+use App\HtmlElements\ButtonElement;
+use App\HtmlElements\ContainerElement;
+use App\HtmlElements\ImageElement;
+use App\HtmlElements\TextElement;
 
 class ElementConverter
 {
@@ -19,38 +20,34 @@ class ElementConverter
 
     public function convert(): string
     {
-        $elements = json_decode($this->json, true);
+        $pageElements = json_decode($this->json, true);
         
-        return $this->convertElement($elements);
+        return $this->convertElement($pageElements);
     }
 
-    public function convertElement($element): string
+    public function convertElement(?array $pageElements): string
     {
         $html = '';
 
-        if (isset($element['type'])) {
-            switch ($element['type']) {
-                case 'container':
-                    $container = new ContainerElement($element);
-                    $html .= $container->render($this);
+        if (isset($pageElements['type'])) {
+            switch ($pageElements['type']) {
+                case HtmlElementsEnum::CONTAINER->value:
+                    $pageElements = new ContainerElement($pageElements);
                     break;
-                case 'block':
-                    $block = new BlockElement($element);
-                    $html .= $block->render($this);
+                case HtmlElementsEnum::BLOCK->value:
+                    $pageElements = new BlockElement($pageElements);
                     break;
-                case 'text':
-                    $text = new TextElement($element);
-                    $html .= $text->render();
+                case HtmlElementsEnum::TEXT->value:
+                    $pageElements = new TextElement($pageElements);
                     break;
-                case 'image':
-                    $image = new ImageElement($element);
-                    $html .= $image->render();
+                case HtmlElementsEnum::IMAGE->value:
+                    $pageElements = new ImageElement($pageElements);
                     break;
-                case 'button':
-                    $button = new ButtonElement($element);
-                    $html .= $button->render();
+                case HtmlElementsEnum::BUTTON->value:
+                    $pageElements = new ButtonElement($pageElements);
                     break;
             }
+            $html .= $pageElements?->render($this);
         }
 
         return $html;
