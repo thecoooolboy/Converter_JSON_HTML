@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum HtmlElementsEnum: string
+enum HtmlElementEnum: string
 {
     case CONTAINER = 'container';
     case BLOCK = 'block';

@@ -1,25 +1,23 @@
 <?php
 
-namespace App\HtmlElements;
+namespace App\HtmlElement;
 
-class ButtonElement
+use App\DTO\PageElement;
+
+final class ButtonElement
 {
-    private array $payload;
-    private array $parameters;
-
-    public function __construct(array $data)
-    {
-        $this->payload = $data['payload'] ?? [];
-        $this->parameters = $data['parameters'] ?? [];
+    public function __construct(
+        private readonly PageElement $pageElement
+    ) {
     }
 
     public function render(): string
     {
         $html = '<button';
 
-        if (!empty($this->parameters)) {
+        if (!empty($this->pageElement->getParameters())) {
             $html .= ' style="';
-            foreach ($this->parameters as $key => $value) {
+            foreach ($this->pageElement->getParameters() as $key => $value) {
                 if ($key === 'textColor') {
                     $html .= 'text-color' . ':' . $value . ';';
                 } elseif ($key === 'backgroundColor') {
@@ -33,7 +31,8 @@ class ButtonElement
 
         $html .= '>';
 
-        $html .= '<a href="' . $this->payload['link']['payload'] . '">' . $this->payload['text'] . '</a></button>';
+        $html .= '<a href="' . $this->pageElement->getPayload()['link']['payload'] . '">' .
+            $this->pageElement->getPayload()['text'] . '</a></button>';
 
         return $html;
     }
